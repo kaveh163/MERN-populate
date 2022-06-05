@@ -19,8 +19,16 @@ async function main() {
 app.get("/api", function (req, res) {
   res.json({ message: "return from server" });
 });
-app.get("*", function (req, res) {
-  res.sendFile(path.resolve(__dirname, "../client/build/", "index.html"));
+// app.get("*", function (req, res) {
+//   res.sendFile(path.resolve(__dirname, "../client/build/", "index.html"));
+// });
+app.get("/api/user", async function (req, res) {
+  const user = await User.findOne({ username: "kaveh" })
+    .populate("friends")
+    .exec();
+
+  console.log(user);
+  res.json(user);
 });
 app.post("/api/register", async function (req, res) {
   console.log("req.body", req.body);
@@ -85,6 +93,10 @@ app.post("/api/register", async function (req, res) {
   }
 
   res.json({ message: "Succefully registered" });
+});
+
+app.get("*", function (req, res) {
+  res.sendFile(path.resolve(__dirname, "../client/build/", "index.html"));
 });
 
 app.listen(PORT, () => {
