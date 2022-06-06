@@ -5,6 +5,26 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 function Home() {
   const [data, setData] = useState(null);
+  const inputElement = useRef();
+  const handleInput = () => {
+    const inputValue = inputElement.current.value;
+    console.log("input", inputValue);
+    fetch("/api/user", {
+      method: "POST",
+      body: JSON.stringify({
+        name: inputValue,
+      }),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        window.location.href = `/user/${data.id}`;
+        
+      });
+  };
   useEffect(() => {
     fetch("/api")
       .then((res) => res.json())
@@ -34,12 +54,13 @@ function Home() {
                     type="text"
                     className=""
                     placeholder="search user for friends"
+                    ref={inputElement}
                   />
                   <span className="">
                     <FontAwesomeIcon
                       className="searchIcon"
                       icon={faSearch}
-                      
+                      onClick={handleInput}
                     />
                   </span>
                 </div>

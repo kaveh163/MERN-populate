@@ -30,6 +30,13 @@ app.get("/api/user", async function (req, res) {
   console.log(user);
   res.json(user);
 });
+app.post("/api/user", async function (req, res) {
+  console.log(req.body);
+  const username = req.body.name;
+  const user = await User.findOne({ username: username });
+  console.log('user', user);
+  res.json({ id: user._id });
+});
 app.post("/api/register", async function (req, res) {
   console.log("req.body", req.body);
   let friends = req.body.friends;
