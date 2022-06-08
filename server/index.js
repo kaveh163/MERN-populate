@@ -4,6 +4,7 @@ const myObjectId = require("bson-objectid");
 const path = require("path");
 const PORT = process.env.PORT || "3001";
 const User = require("./Model/User");
+const { find } = require("./Model/User");
 const app = express();
 app.use(express.static(path.resolve(__dirname, "../client/build/")));
 app.use(express.json());
@@ -30,6 +31,10 @@ app.get("/api/user", async function (req, res) {
   console.log(user);
   res.json(user);
 });
+app.get("/api/users", async function(req, res) {
+  const users = await User.find({}).populate('friends').exec();
+  res.json(users);
+})
 app.get("/api/user/:id", async function (req, res) {
   console.log('params',req.params);
   const id = req.params.id;

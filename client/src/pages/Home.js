@@ -15,18 +15,17 @@ function Home() {
         name: inputValue,
       }),
       headers: {
-        'Content-type': 'application/json; charset=UTF-8',
+        "Content-type": "application/json; charset=UTF-8",
       },
     })
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
         window.location.href = `/user/${data.id}`;
-        
       });
   };
   useEffect(() => {
-    fetch("/api")
+    fetch("/api/users")
       .then((res) => res.json())
       .then((data) => {
         setTimeout(() => {
@@ -71,16 +70,28 @@ function Home() {
         </section>
       </section>
 
-      <nav>
-        <p>
-          <Link to="/user"></Link>
-        </p>
-        <p>
-          <Link to="/register">register</Link>
-        </p>
-      </nav>
-      <Outlet />
-      <p>{!data ? "Loading ..." : data.message}</p>
+      <p className="load">{!data ? "Loading ..." : ""}</p>
+      <div>
+        <div>
+          {data &&
+            data.map((item, index) => {
+              return (
+                <div className="mb-3" key={index}>
+                  <p className="mb-1 size">{item.username}</p>
+                  
+                  
+                  {item.friends.length > 0 && (
+                    <div className="">
+                      {item.friends.map((value, ind) => {
+                        return <p className="mb-0" key={ind}>{value.username}</p>;
+                      })}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+        </div>
+      </div>
     </>
   );
 }
