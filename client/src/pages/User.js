@@ -2,10 +2,16 @@ import { useState, useEffect, useRef } from "react";
 import { Link, Outlet } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { useParams } from "react-router";
+import UserDesign from "../UserDesign";
 
 function User() {
   const [data, setData] = useState(null);
+  //   console.log('data');
   const inputElement = useRef();
+  const { id } = useParams();
+  console.log("id", id);
+  //   console.log('afterId');
   const handleInput = () => {
     const inputValue = inputElement.current.value;
     console.log("input", inputValue);
@@ -15,26 +21,27 @@ function User() {
         name: inputValue,
       }),
       headers: {
-        'Content-type': 'application/json; charset=UTF-8',
+        "Content-type": "application/json; charset=UTF-8",
       },
     })
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
         window.location.href = `/user/${data.id}`;
-        
       });
   };
-  useEffect(() => {
-    fetch("/api")
-      .then((res) => res.json())
-      .then((data) => {
-        setTimeout(() => {
-          setData(data);
-        }, 3000);
-      });
-  }, []);
+  // useEffect(() => {
+    //   console.log('effect');
+  //   fetch("/api")
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setTimeout(() => {
+  //         setData(data);
+  //       }, 3000);
+  //     });
+  // }, []);
   console.log("data", data);
+  //   console.log('return');
   return (
     <>
       <section className="wrapper">
@@ -70,17 +77,7 @@ function User() {
           </section>
         </section>
       </section>
-
-      <nav>
-        <p>
-          <Link to="/user"></Link>
-        </p>
-        <p>
-          <Link to="/register">register</Link>
-        </p>
-      </nav>
-      <Outlet />
-      <p>{!data ? "Loading ..." : data.message}</p>
+      <UserDesign id={id} />
     </>
   );
 }

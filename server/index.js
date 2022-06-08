@@ -30,6 +30,16 @@ app.get("/api/user", async function (req, res) {
   console.log(user);
   res.json(user);
 });
+app.get("/api/user/:id", async function (req, res) {
+  console.log('params',req.params);
+  const id = req.params.id;
+  const idObject = myObjectId(id);
+  console.log('id', id);
+  console.log('idObject', idObject);
+  const user = await User.findById({_id : id}).populate("friends").exec();
+  console.log('user', user);
+  res.json(user);
+})
 app.post("/api/user", async function (req, res) {
   console.log(req.body);
   const username = req.body.name;

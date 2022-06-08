@@ -45,7 +45,7 @@
     border-top: 1px solid white;
     height: 50px;
     box-sizing: border-box;
-    padding: 10px 25px 10px 25px;
+    padding: 5px 25px 5px 25px;
 }
 .wrapper .header .menu .sub-menu .link {
     text-decoration: none;
