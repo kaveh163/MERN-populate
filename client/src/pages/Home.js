@@ -72,21 +72,22 @@ function Home() {
 
       <p className="load">{!data ? "Loading ..." : ""}</p>
       <div>
-        <div>
+        <div className="row gy-4  m-0 mx-auto">
           {data &&
             data.map((item, index) => {
               return (
-                <div className="mb-3" key={index}>
-                  <p className="mb-1 size">{item.username}</p>
-                  
-                  
-                  {item.friends.length > 0 && (
-                    <div className="">
-                      {item.friends.map((value, ind) => {
-                        return <p className="mb-0" key={ind}>{value.username}</p>;
-                      })}
+                <div key={index} className="col-12 m-0 mt-3">
+                  <div className="card h-100">
+                    <header>{item.username}</header>
+                    <div className="card-body">
+                      <h5 className="card-title">Friends</h5>
+                      {item.friends.length == 0 && <p className= "card-text">no friends</p>}
+                      {item.friends.length > 0 &&
+                        item.friends.map((value, ind) => {
+                          return <p className="card-text">{value.username}</p>;
+                        })}
                     </div>
-                  )}
+                  </div>
                 </div>
               );
             })}
