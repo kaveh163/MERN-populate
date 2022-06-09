@@ -56,7 +56,10 @@ function Register() {
       },
     })
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) => {
+        console.log(data);
+        window.location.href = '/';
+      });
   };
   return (
     <div>

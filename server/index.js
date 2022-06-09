@@ -31,25 +31,25 @@ app.get("/api/user", async function (req, res) {
   console.log(user);
   res.json(user);
 });
-app.get("/api/users", async function(req, res) {
-  const users = await User.find({}).populate('friends').exec();
+app.get("/api/users", async function (req, res) {
+  const users = await User.find({}).populate("friends").exec();
   res.json(users);
-})
+});
 app.get("/api/user/:id", async function (req, res) {
-  console.log('params',req.params);
+  console.log("params", req.params);
   const id = req.params.id;
   const idObject = myObjectId(id);
-  console.log('id', id);
-  console.log('idObject', idObject);
-  const user = await User.findById({_id : id}).populate("friends").exec();
-  console.log('user', user);
+  console.log("id", id);
+  console.log("idObject", idObject);
+  const user = await User.findById({ _id: id }).populate("friends").exec();
+  console.log("user", user);
   res.json(user);
-})
+});
 app.post("/api/user", async function (req, res) {
   console.log(req.body);
   const username = req.body.name;
   const user = await User.findOne({ username: username });
-  console.log('user', user);
+  console.log("user", user);
   res.json({ id: user._id });
 });
 app.post("/api/register", async function (req, res) {
@@ -67,12 +67,23 @@ app.post("/api/register", async function (req, res) {
       const friendUser = await User.findOne({ username: friend }).exec();
       if (friendUser) {
         userDoc.friends.push(friendUser._id);
+        // if userId does not exist in friends list, add its id to friends list.
+        // const userIdExists = await User.findOne({username : friend, friends: userDoc._id}).exec();
+        // if(!userIdExists) {
+        //   friendUser.friends.push(userDoc._id);
+        // }
+        friendUser.friends.push(userDoc._id);
+        friendUser.save(function (err) {
+          if (err) console.log(err);
+          return;
+        });
       } else {
         const friendDoc = new User({
           _id: new mongoose.Types.ObjectId(),
           username: friend,
           friends: [],
         });
+        friendDoc.friends.push(userDoc._id);
         friendDoc.save(function (err) {
           if (err) console.log(err);
           return;
@@ -88,6 +99,19 @@ app.post("/api/register", async function (req, res) {
     for (const friend of friends) {
       const friendDoc = await User.findOne({ username: friend }).exec();
       if (friendDoc) {
+        const userIdExists = await User.findOne({
+          username: friend,
+          friends: user._id,
+        }).exec();
+        if (!userIdExists) {
+          friendDoc.friends.push(user._id);
+        }
+        friendDoc.save(function (err) {
+          if (err) {
+            console.log(err);
+            return;
+          }
+        });
         const friendIdExists = await User.findOne({
           username: username,
           friends: friendDoc._id,
@@ -101,6 +125,7 @@ app.post("/api/register", async function (req, res) {
           username: friend,
           friends: [],
         });
+        createFriendDoc.friends.push(user._id);
         createFriendDoc.save(function (err) {
           if (err) console.log(err);
           return;

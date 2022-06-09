@@ -26,7 +26,7 @@ function UserDesign(props) {
                 {data &&
                   data.friends.map((item, index) => {
                     return (
-                      <li className="list-group-item">
+                      <li key={index} className="list-group-item">
                         <div className={styles.listItem}>
                           <p>{item.username}</p>
                         </div>
