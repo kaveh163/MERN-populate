@@ -76,7 +76,7 @@ function Home() {
           {data &&
             data.map((item, index) => {
               return (
-                <div key={index} className="col-12 m-0 mt-3">
+                <div key={index} className="col-12 m-0 mt-3 mb-3 card-wrapper h-100">
                   <div className="card h-100">
                     <header>{item.username}</header>
                     <div className="card-body">
