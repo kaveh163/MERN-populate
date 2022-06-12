@@ -31,7 +31,7 @@ function User() {
       });
   };
   // useEffect(() => {
-    //   console.log('effect');
+  //   console.log('effect');
   //   fetch("/api")
   //     .then((res) => res.json())
   //     .then((data) => {
@@ -47,15 +47,22 @@ function User() {
       <section className="wrapper">
         <section className="header">
           <section className="menu">
-            <nav className="row m-0 p-0">
-              <section className="col-6 sub-menu">
+            <nav className="row m-0 p-0 text-center">
+              <section className="col-3 sub-menu">
+                <div className="left">
+                  <Link to="/" className="link">
+                    home
+                  </Link>
+                </div>
+              </section>
+              <section className="col-3 sub-menu">
                 <div className="left">
                   <Link to="/register" className="link">
                     register
                   </Link>
                 </div>
               </section>
-              <section className="col-6 sub-menu">
+              <section className="col-3 sub-menu">
                 <div className="right d-flex justify-content-between">
                   <input
                     type="text"

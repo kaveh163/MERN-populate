@@ -30,6 +30,7 @@
 }
 .wrapper .header .menu .row {
   height: 100px;
+  justify-content: center;
 }
 .wrapper .header .menu .sub-menu {
   box-sizing: border-box;
