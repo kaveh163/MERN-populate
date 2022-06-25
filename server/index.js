@@ -10,10 +10,20 @@ app.use(express.static(path.resolve(__dirname, "../client/build/")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-main().catch((err) => console.log(err));
+main();
 
 async function main() {
-  await mongoose.connect("mongodb://localhost:27017/populate");
+  try {
+    if (process.env.NODE_ENV === "production") {
+      await mongoose.connect(process.env.MONGO_URI);
+    } else {
+      await mongoose.connect("mongodb://localhost:27017/populate");
+    }
+
+    console.log("MongoDB Connection Success");
+  } catch (error) {
+    console.log("MongoDB Connection Failed");
+  }
 }
 
 //get Routes
